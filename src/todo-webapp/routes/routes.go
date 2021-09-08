@@ -13,7 +13,7 @@ func HandleRequest(p string) {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", handler.LandingPage)
 	router.HandleFunc("/health", handler.Health)
-	router.HandleFunc("/register", handler.Register).Methods(http.MethodGet)
+	router.HandleFunc("/register", handler.GetRegister).Methods(http.MethodGet)
 	router.HandleFunc("/register", handler.Register).Methods(http.MethodPost)
 	router.HandleFunc("/login", handler.Login).Methods(http.MethodGet)
 	router.HandleFunc("/login", handler.LoginPress).Methods(http.MethodPost)
