@@ -23,17 +23,31 @@ func main() {
 		log.Println("Connection established")
 	}
 
+	var user User
+
 	// CREATE
-	user := User{Fname: "test", Lname: "name", Email: "mock@email.com", Password: "IniMockPass"}
+	user = User{Fname: "test", Lname: "name", Email: "mock@email.com", Password: "IniMockPass"}
 	db.Create(&user)
 	// trying duplicate email
 	db.Create(&user)
 
 	// READ
-	// var getUser User
-	// db.First(&getUser, "fname = ?", "test") // find product with code D42
+	// db.First(&getUser, "fname = ?", "test")
 	// fmt.Println(getUser)
 
-	// Delete - delete product
-	// db.Delete(&user, 1)
+	// FIND
+	// test := User{Email: "mock@email.com"}
+	// db.Find(&user, test)
+	// if user.Email == "" {
+	// fmt.Println("error")
+	// } else {
+	// 	fmt.Println(user)
+	// }
+
+	// Delete
+	// db.Delete(&user, test)
+	// // get all user
+	// users := []User{}
+	// db.Find(&user)
+	// fmt.Print(users)
 }
