@@ -53,13 +53,17 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	var res Result
 
-	DB.Create(&user)
-	if Err != nil {
+	if user.Email == "" || user.Password == "" || user.Fname == "" || user.Lname == "" {
 		res = Result{Status: 406, Message: http.StatusText(http.StatusNotAcceptable)}
 		w.WriteHeader(http.StatusNotAcceptable)
 	} else {
-		res = Result{Status: 201, Message: http.StatusText(http.StatusAccepted)}
-		w.WriteHeader(http.StatusAccepted)
+		if dbe := DB.Create(&user); dbe.Error != nil {
+			res = Result{Status: 406, Message: http.StatusText(http.StatusNotAcceptable)}
+			w.WriteHeader(http.StatusNotAcceptable)
+		} else {
+			res = Result{Status: 201, Message: http.StatusText(http.StatusAccepted)}
+			w.WriteHeader(http.StatusAccepted)
+		}
 	}
 
 	result, _ := json.Marshal(res)
@@ -95,6 +99,10 @@ func LoginPress(w http.ResponseWriter, r *http.Request) {
 	result, _ := json.Marshal(res)
 
 	w.Write(result)
+}
+
+func GetRegister(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Ini route GET register/"))
 }
 
 func ForgotPassword(w http.ResponseWriter, r *http.Request) {
