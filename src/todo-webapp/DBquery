@@ -1,0 +1,40 @@
+
+DBrootpass: IniRootPassword123@
+DBUserToDo: todoAdmin@localhost
+DBUSerToDoPass: IniPassword456$
+
+-- create todowebapp database and todoAdmin user to config it
+CREATE DATABASE todowebapp;
+CREATE USER todoAdmin@localhost IDENTIFIED BY 'IniPassword456$';
+GRANT ALL PRIVILEGES ON todowebapp.* TO todoAdmin@localhost;
+FLUSH PRIVILEGES;
+
+-- create table regarding todowebapp schema
+CREATE TABLE users(
+    userId INT NOT NULL AUTO_INCREMENT UNIQUE PRIMARY KEY,
+    fname VARCHAR(20) NOT NULL,
+    lname VARCHAR(20) NOT NULL,
+    email VARCHAR(20) UNIQUE NOT NULL,
+    password VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE admin(
+    userId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fname VARCHAR(20) NOT NULL,
+    lname VARCHAR(20) NOT NULL,
+    email VARCHAR(20) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE task(
+    taskId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    item VARCHAR(40) NOT NULL,
+    lastModified VARCHAR(20) NOT NULL,
+    taskHour VARCHAR(20) NOT NULL,
+    status BOOLEAN NOT NULL
+);
+
+CREATE TABLE taskImage(
+    imageID INT NOT NULL PRIMARY KEY,
+    lastModified DATETIME DEFAULT CURRENT_TIMESTAMP 
+);
