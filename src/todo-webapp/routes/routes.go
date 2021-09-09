@@ -18,6 +18,8 @@ func HandleRequest(p string) {
 	router.HandleFunc("/login", handler.Login).Methods(http.MethodGet)
 	router.HandleFunc("/login", handler.LoginPress).Methods(http.MethodPost)
 	router.HandleFunc("/login/forgot-password", handler.ForgotPassword)
+	router.HandleFunc("/addTodo", handler.AddTodo).Methods(http.MethodPost)
+	router.HandleFunc("/deleteTodo", handler.DeleteTodo).Methods(http.MethodDelete)
 
 	// err catcher
 	err := http.ListenAndServe(":"+p, router)

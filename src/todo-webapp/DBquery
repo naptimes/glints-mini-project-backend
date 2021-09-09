@@ -26,12 +26,10 @@ CREATE TABLE admin(
     password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE task(
-    taskId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE tasks(
+    task_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     item VARCHAR(40) NOT NULL,
-    lastModified VARCHAR(20) NOT NULL,
-    taskHour VARCHAR(20) NOT NULL,
-    status BOOLEAN NOT NULL
+    task_status BOOLEAN NOT NULL
 );
 
 CREATE TABLE taskImage(

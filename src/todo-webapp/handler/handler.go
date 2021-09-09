@@ -38,6 +38,12 @@ type Result struct {
 	Message string `json:"message"`
 }
 
+type Task struct {
+	TaskID     int    `json:"taskId"`
+	Item       string `json:"item"`
+	TaskStatus bool   `json:"status"`
+}
+
 func Health(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello World! %s", time.Now())
 }
@@ -111,4 +117,52 @@ func ForgotPassword(w http.ResponseWriter, r *http.Request) {
 
 func LandingPage(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Ini landing page~"))
+}
+
+func AddTodo(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
+
+	body, _ := ioutil.ReadAll(r.Body)
+
+	var task Task
+	json.Unmarshal(body, &task)
+
+	var res Result
+
+	if task.Item == "" {
+		res = Result{Status: 406, Message: http.StatusText(http.StatusNotAcceptable)}
+		w.WriteHeader(http.StatusNotAcceptable)
+	} else {
+		if dbe := DB.Create(&task); dbe.Error != nil {
+			res = Result{Status: 406, Message: http.StatusText(http.StatusNotAcceptable)}
+			w.WriteHeader(http.StatusNotAcceptable)
+		} else {
+			res = Result{Status: 201, Message: http.StatusText(http.StatusAccepted)}
+			w.WriteHeader(http.StatusAccepted)
+		}
+	}
+
+	result, _ := json.Marshal(res)
+
+	w.Write(result)
+}
+
+func DeleteTodo(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
+
+	body, _ := ioutil.ReadAll(r.Body)
+
+	var task Task
+	var catch Task
+	var res Result
+
+	json.Unmarshal(body, &catch)
+
+	DB.Delete(&task, "task_id = ?", catch.TaskID)
+	res = Result{Status: 200, Message: http.StatusText(http.StatusOK)}
+	w.WriteHeader(http.StatusOK)
+
+	result, _ := json.Marshal(res)
+
+	w.Write(result)
 }
